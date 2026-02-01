@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online MySQL Workshop | தமிழ் & English | M.M. Abdhul Muqsith</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Noto+Sans+Tamil:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a5f7a;
+            --primary-dark: #0d4c63;
+            --secondary: #ffc107;
+            --accent: #4e54c8;
+            --tamil-color: #e63946;
+            --english-color: #2a9d8f;
+            --light: #f8f9fa;
+            --dark: #2d3748;
+            --success: #28a745;
+            --danger: #e74c3c;
+            --online: #25D366;
+            --virtual-bg: #f0f7ff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', 'Noto Sans Tamil', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .tamil-text {
+            font-family: 'Noto Sans Tamil', 'Poppins', sans-serif;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Language Toggle */
+        .language-toggle {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            z-index: 1000;
+            background: white;
+            border-radius: 50px;
+            padding: 10px 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            gap: 10px;
+        }
+
+        .lang-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px;
+            background: #f0f0f0;
+            color: #666;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .lang-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+            background: var(--secondary);
+            color: var(--primary-dark);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-text h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .logo-text p {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .medium-badges {
+            display: flex;
+            gap: 10px;
+            margin-left: 15px;
+        }
+
+        .medium-badge {
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-tamil {
+            background: var(--tamil-color);
+            color: white;
+        }
+
+        .badge-english {
+            background: var(--english-color);
+            color: white;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--accent) 0%, #8f94fb 100%);
+            color: white;
+            text-align: center;
+            padding: 80px 20px;
+            margin-bottom: 40px;
+            border-radius: 0 0 20px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .hero .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            margin-bottom: 25px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .medium-highlight {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid var(--tamil-color);
+            border-right: 4px solid var(--english-color);
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--secondary);
+            color: var(--dark);
+            padding: 16px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            margin: 10px;
+        }
+
+        .cta-button:hover {
+            background-color: #e0a800;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Instructor Section with Photo */
+        .instructor-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin: 50px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .instructor-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .instructor-photo-container {
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .instructor-photo {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .instructor-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .instructor-photo:hover img {
+            transform: scale(1.05);
+        }
+
+        .photo-badge {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: var(--secondary);
+            color: var(--dark);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .instructor-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .instructor-info h2 {
+            color: var(--primary);
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .qualification-badge {
+            display: inline-block;
+            background: var(--success);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .experience-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--primary);
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-left: 10px;
+        }
+
+        /* Institutes Grid */
+        .institutes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .institute-card {
+            background: var(--virtual-bg);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            border-left: 4px solid var(--primary);
+            transition: all 0.3s;
+        }
+
+        .institute-card:hover {
+            background: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-3px);
+        }
+
+        /* Pricing Section */
+        .pricing-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .price-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .price-card.internal {
+            border-top: 5px solid var(--success);
+        }
+
+        .price-card.external {
+            border-top: 5px solid var(--primary);
+        }
+
+        .price-tag {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 20px 0;
+        }
+
+        .price-card.internal .price-tag {
+            color: var(--success);
+        }
+
+        /* Seats Counter */
+        .seats-counter {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin: 40px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .seats-remaining {
+            font-size: 4rem;
+            font-weight: 700;
+            margin: 10px 0;
+            color: var(--secondary);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Registration Section */
+        .registration-section {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            margin: 50px 0;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .google-form-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+            color: white;
+            padding: 20px 50px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all 0.3s;
+            margin: 30px 0;
+            box-shadow: 0 10px 25px rgba(66, 133, 244, 0.3);
+        }
+
+        .google-form-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(66, 133, 244, 0.4);
+        }
+
+        /* Contact Section */
+        .contact-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 50px 0;
+        }
+
+        .contact-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s;
+        }
+
+        .whatsapp-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--online);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 15px;
+            transition: all 0.3s;
+        }
+
+        .whatsapp-btn:hover {
+            background: #128C7E;
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0 30px;
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .subtitle { font-size: 1.1rem; }
+            .price-tag { font-size: 2.5rem; }
+            .seats-remaining { font-size: 3rem; }
+            .registration-section { padding: 30px 20px; }
+            .language-toggle { top: 80px; right: 10px; }
+            .instructor-photo { width: 180px; height: 180px; }
+            .instructor-header { flex-direction: column; align-items: center; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Toggle -->
+    <div class="language-toggle">
+        <button class="lang-btn active" onclick="switchLanguage('english')">English</button>
+        <button class="lang-btn" onclick="switchLanguage('tamil')">தமிழ்</button>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>Online MySQL Workshop</h1>
+                        <p>தமிழ் & English Medium Students</p>
+                    </div>
+                    <div class="medium-badges">
+                        <span class="medium-badge badge-tamil">தமிழ்</span>
+                        <span class="medium-badge badge-english">English</span>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="background: var(--online); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.85rem; font-weight: 600;">
+                        <i class="fas fa-signal"></i> LIVE ONLINE
+                    </span>
+                    <span style="background: var(--danger); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.85rem; font-weight: 600;">
+                        <i class="fas fa-users"></i> 50 Seats Only
+                    </span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Master MySQL in தமிழ் & English</h1>
+            <p class="subtitle">Special Online Workshop for Tamil & English Medium A/L ICT Students in Sri Lanka</p>
+            
+            <div class="medium-highlight">
+                <h3><i class="fas fa-language"></i> Dual Medium Support</h3>
+                <p>Explanations in both தமிழ் & English | Course materials in both languages</p>
+            </div>
+            
+            <div>
+                <a href="#registration" class="cta-button">
+                    <i class="fas fa-user-plus"></i> Register Now
+                </a>
+                <a href="https://forms.gle/1gKEU7uLsfs36MnK6" class="cta-button" style="background: white; color: var(--primary); border: 2px solid white;" target="_blank">
+                    <i class="fab fa-google"></i> Direct Google Form
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <!-- Instructor Section with Photo -->
+        <section class="instructor-section">
+            <div class="instructor-header">
+                <div class="instructor-photo-container">
+                    <div class="instructor-photo">
+                        <img src="mrict.png" alt="M.M. Abdhul Muqsith - MySQL Instructor for Tamil & English Medium Students" 
+                             onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80';">
+                    </div>
+                    <div class="photo-badge">
+                        <i class="fas fa-chalkboard-teacher"></i> Instructor
+                    </div>
+                </div>
+                
+                <div class="instructor-info">
+                    <h2>M.M. Abdhul Muqsith</h2>
+                    <div class="qualification-badge">
+                        BSc in Applied Mathematics and Computing
+                    </div>
+                    <div class="experience-badge">
+                        <i class="fas fa-award"></i> 10+ Years Teaching Experience
+                    </div>
+                    
+                    <p style="margin-top: 20px; font-size: 1.1rem; color: #555;">
+                        Experienced educator specializing in ICT for Tamil and English medium students across Sri Lanka. 
+                        Developed a unique teaching methodology that bridges language barriers and helps students master 
+                        MySQL concepts for A/L exams and real-world applications.
+                    </p>
+                    
+                    <div style="margin-top: 25px; display: flex; gap: 15px; flex-wrap: wrap;">
+                        <span style="background: #e3f2fd; color: var(--primary); padding: 8px 15px; border-radius: 20px; font-size: 0.9rem;">
+                            <i class="fas fa-graduation-cap"></i> ICT Specialist
+                        </span>
+                        <span style="background: #f3e5f5; color: #7b1fa2; padding: 8px 15px; border-radius: 20px; font-size: 0.9rem;">
+                            <i class="fas fa-database"></i> MySQL Expert
+                        </span>
+                        <span style="background: #e8f5e8; color: var(--success); padding: 8px 15px; border-radius: 20px; font-size: 0.9rem;">
+                            <i class="fas fa-users"></i> 1000+ Students Trained
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+            <h3 style="margin-top: 40px; color: var(--primary); padding-bottom: 10px; border-bottom: 2px solid #eee;">
+                <i class="fas fa-school"></i> Currently Teaching At:
+            </h3>
+            <div class="institutes-grid">
+                <div class="institute-card">New Gen Academy</div>
+                <div class="institute-card">Dharga Town Tech Project</div>
+                <div class="institute-card">Kurunegala Hizbullah Central College</div>
+                <div class="institute-card">Beruwala Science Project</div>
+                <div class="institute-card">Al Mubarak National School Malwana</div>
+                <div class="institute-card">Jamiah Naleemiya Islamic Institute</div>
+            </div>
+        </section>
+
+        <!-- Medium Support Section -->
+        <section class="instructor-section" style="margin-top: 40px;">
+            <h2 style="color: var(--primary); margin-bottom: 30px; text-align: center;">
+                <i class="fas fa-language"></i> Dual Medium Teaching Approach
+            </h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+                <div style="text-align: center; padding: 25px; background: linear-gradient(135deg, #ffeaea 0%, #ffffff 100%); border-radius: 15px; border-left: 4px solid var(--tamil-color);">
+                    <div style="font-size: 3rem; color: var(--tamil-color); margin-bottom: 20px;">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <h3 class="tamil-text" style="color: var(--tamil-color); margin-bottom: 15px;">தமிழ் மீடியம்</h3>
+                    <ul style="text-align: left; padding-left: 20px;">
+                        <li class="tamil-text">MySQL கருத்துகளை தமிழில் விளக்கம்</li>
+                        <li class="tamil-text">தமிழ் பாட பொருட்கள் மற்றும் எடுத்துக்காட்டுகள்</li>
+                        <li class="tamil-text">தமிழில் சந்தேகங்களை கேட்கலாம்</li>
+                        <li class="tamil-text">A/L தமிழ் பாடத்திட்டத்திற்கு ஏற்ப</li>
+                    </ul>
+                </div>
+                
+                <div style="text-align: center; padding: 25px; background: linear-gradient(135deg, #e8f4fc 0%, #ffffff 100%); border-radius: 15px; border-left: 4px solid var(--english-color);">
+                    <div style="font-size: 3rem; color: var(--english-color); margin-bottom: 20px;">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3 style="color: var(--english-color); margin-bottom: 15px;">English Medium</h3>
+                    <ul style="text-align: left; padding-left: 20px;">
+                        <li>Clear MySQL explanations in English</li>
+                        <li>English course materials and examples</li>
+                        <li>Query clarifications in English</li>
+                        <li>Aligned with A/L ICT English syllabus</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section class="pricing-section">
+            <div class="price-card internal">
+                <h3><i class="fas fa-user-graduate"></i> Internal Students</h3>
+                <p class="tamil-text">எனது நிறுவனங்களில் படிக்கும் மாணவர்கள்</p>
+                <div class="price-tag">LKR 250.00</div>
+                <div style="text-align: left; margin: 25px 0;">
+                    <p><i class="fas fa-check" style="color: var(--success);"></i> All live sessions in chosen medium</p>
+                    <p><i class="fas fa-check" style="color: var(--success);"></i> Study materials in தமிழ்/English</p>
+                    <p><i class="fas fa-check" style="color: var(--success);"></i> Priority support in your language</p>
+                    <p><i class="fas fa-check" style="color: var(--success);"></i> Medium-specific WhatsApp groups</p>
+                </div>
+            </div>
+            
+            <div class="price-card external">
+                <h3><i class="fas fa-users"></i> External Students</h3>
+                <p class="tamil-text">அனைத்து தமிழ் & ஆங்கில மீடியம் மாணவர்களுக்கும்</p>
+                <div class="price-tag">LKR 500.00</div>
+                <div style="text-align: left; margin: 25px 0;">
+                    <p><i class="fas fa-check" style="color: var(--primary);"></i> All sessions + recordings</p>
+                    <p><i class="fas fa-check" style="color: var(--primary);"></i> Course materials in both languages</p>
+                    <p><i class="fas fa-check" style="color: var(--primary);"></i> Certificate of completion</p>
+                    <p><i class="fas fa-check" style="color: var(--primary);"></i> Medium-specific practice exercises</p>
+                    <p><i class="fas fa-check" style="color: var(--primary);"></i> Bilingual support</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seats Counter -->
+        <section class="seats-counter">
+            <h2><i class="fas fa-users"></i> Limited Seats Available</h2>
+            <p class="tamil-text">தமிழ் & ஆங்கில மீடியம் மாணவர்களுக்கு 50 இடங்கள் மட்டுமே</p>
+            <div class="seats-remaining">50</div>
+            <h3>Total Online Seats</h3>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="contact-section">
+            <div class="contact-card">
+                <div style="font-size: 2.5rem; color: var(--online); margin-bottom: 15px;">
+                    <i class="fab fa-whatsapp"></i>
+                </div>
+                <h3>WhatsApp for Queries</h3>
+                <p class="tamil-text">தமிழ் & ஆங்கிலத்தில் விளக்கம்</p>
+                <a href="https://wa.me/940770712374" class="whatsapp-btn" target="_blank">
+                    <i class="fab fa-whatsapp"></i> 077 071 2374
+                </a>
+            </div>
+            
+            <div class="contact-card">
+                <div style="font-size: 2.5rem; color: var(--primary); margin-bottom: 15px;">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <h3>Email Registration</h3>
+                <p>Send details in தமிழ் or English</p>
+                <p style="margin-top: 15px; font-weight: 600; color: var(--primary);">
+                    itabdms19@gmail.com
+                </p>
+            </div>
+            
+            <div class="contact-card">
+                <div style="font-size: 2.5rem; color: var(--accent); margin-bottom: 15px;">
+                    <i class="fas fa-language"></i>
+                </div>
+                <h3>Medium Selection</h3>
+                <p>Choose your medium in Google Form</p>
+                <p style="margin-top: 15px; color: #666;">
+                    <i class="fas fa-info-circle"></i> தமிழ் or English option available
+                </p>
+            </div>
+        </section>
+
+        <!-- Registration Section -->
+        <section class="registration-section" id="registration">
+            <h2 style="color: var(--primary); margin-bottom: 20px; font-size: 2rem;">
+                <i class="fas fa-clipboard-check"></i> Official Registration
+            </h2>
+            
+            <p style="font-size: 1.2rem; margin-bottom: 20px;">
+                Choose your medium (தமிழ்/English) in the Google Form
+            </p>
+            <p class="tamil-text" style="font-size: 1.1rem; margin-bottom: 30px; color: #555;">
+                கூகுள் படிவத்தில் உங்கள் மீடியத்தைத் தேர்ந்தெடுக்கவும் (தமிழ்/ஆங்கிலம்)
+            </p>
+            
+            <div style="background: var(--virtual-bg); padding: 30px; border-radius: 15px; margin: 30px 0;">
+                <h3 style="color: var(--primary-dark); margin-bottom: 25px;">
+                    <i class="fab fa-google"></i> Google Form Registration
+                </h3>
+                
+                <a href="https://forms.gle/1gKEU7uLsfs36MnK6" class="google-form-button" target="_blank" id="googleFormBtn">
+                    <i class="fab fa-google"></i> Open Registration Form
+                </a>
+                
+                <p style="margin-top: 20px; color: #666;">
+                    <i class="fas fa-external-link-alt"></i> Opens in new tab | Takes 5 minutes
+                </p>
+            </div>
+            
+            <div style="background: #e8f4fc; padding: 25px; border-radius: 15px; margin-top: 30px;">
+                <h4 style="color: var(--primary); margin-bottom: 20px;">
+                    <i class="fas fa-list-ol"></i> Registration Process
+                </h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                    <div style="text-align: center;">
+                        <div style="background: var(--tamil-color); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin: 0 auto 15px;">1</div>
+                        <p><strong>Choose Medium</strong><br>Select தமிழ் or English</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="background: var(--english-color); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin: 0 auto 15px;">2</div>
+                        <p><strong>Fill Details</strong><br>Complete the Google Form</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="background: var(--primary); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin: 0 auto 15px;">3</div>
+                        <p><strong>Confirmation</strong><br>Receive email/WhatsApp</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="background: var(--success); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin: 0 auto 15px;">4</div>
+                        <p><strong>Join Class</strong><br>Get meeting links & materials</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <h3>Instructor</h3>
+                    <p><strong>M.M. Abdhul Muqsith</strong></p>
+                    <p class="tamil-text">பயன்பாட்டு கணிதம் மற்றும் கம்ப்யூட்டிங் பட்டதாரி</p>
+                    <p>BSc Applied Mathematics & Computing</p>
+                </div>
+                
+                <div>
+                    <h3>Contact Information</h3>
+                    <p><i class="fab fa-whatsapp"></i> 077 071 2374</p>
+                    <p><i class="fas fa-envelope"></i> itabdms19@gmail.com</p>
+                </div>
+                
+                <div>
+                    <h3>Workshop Details</h3>
+                    <p><i class="fas fa-language"></i> தமிழ் & English Medium</p>
+                    <p><i class="fas fa-users"></i> 50 Students Only</p>
+                    <p><i class="fas fa-rupee-sign"></i> LKR 250/500</p>
+                </div>
+                
+                <div>
+                    <h3>Registration Link</h3>
+                    <p><i class="fab fa-google"></i> Google Forms:</p>
+                    <a href="https://forms.gle/1gKEU7uLsfs36MnK6" style="color: white; text-decoration: none; word-break: break-all;" target="_blank">
+                        forms.gle/1gKEU7uLsfs36MnK6
+                    </a>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>© 2026 Online MySQL Workshop for Tamil & English Medium Students | M.M. Abdhul Muqsith</p>
+                <p class="tamil-text" style="margin-top: 10px; font-size: 0.85rem;">
+                    இலங்கை A/L ICT மாணவர்களுக்கான ஆன்லைன் MySQL பட்டறை
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Language switching functionality
+        function switchLanguage(lang) {
+            // Update toggle buttons
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            if (lang === 'tamil') {
+                document.title = "ஆன்லைன் MySQL பட்டறை | M.M. அப்துல் முக்சித்";
+                document.querySelector('.hero h1').textContent = "தமிழ் & ஆங்கிலத்தில் MySQL கற்றுக்கொள்ளுங்கள்";
+                document.querySelector('.hero .subtitle').textContent = "இலங்கை தமிழ் & ஆங்கில மீடியம் A/L ICT மாணவர்களுக்கான சிறப்பான ஆன்லைன் பட்டறை";
+            } else {
+                document.title = "Online MySQL Workshop | M.M. Abdhul Muqsith";
+                document.querySelector('.hero h1').textContent = "Master MySQL in தமிழ் & English";
+                document.querySelector('.hero .subtitle').textContent = "Special Online Workshop for Tamil & English Medium A/L ICT Students in Sri Lanka";
+            }
+        }
+
+        // Seat counter animation
+        function updateSeatCounter() {
+            const counter = document.querySelector('.seats-remaining');
+            let seats = 50;
+            
+            setInterval(() => {
+                if (seats > 30 && Math.random() > 0.8) {
+                    seats--;
+                    counter.textContent = seats;
+                    counter.style.transform = 'scale(1.1)';
+                    setTimeout(() => {
+                        counter.style.transform = 'scale(1)';
+                    }, 300);
+                }
+            }, 8000);
+        }
+
+        // Photo loading check
+        function checkPhotoLoad() {
+            const photo = document.querySelector('.instructor-photo img');
+            photo.onload = function() {
+                console.log('Instructor photo loaded successfully');
+            };
+            
+            photo.onerror = function() {
+                console.warn('Photo failed to load, using fallback image');
+                // The onerror handler in the img tag already handles this
+            };
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateSeatCounter();
+            checkPhotoLoad();
+            
+            // Update year in footer
+            document.querySelector('.copyright p').innerHTML = 
+                document.querySelector('.copyright p').innerHTML.replace('2026', new Date().getFullYear());
+            
+            console.log('Workshop page loaded with instructor photo');
+        });
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                if(this.getAttribute('href') === '#') return;
+                
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if(target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
